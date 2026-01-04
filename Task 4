@@ -1,0 +1,97 @@
+import java.util.*;
+
+class OnlineExamination {
+
+    static Scanner sc = new Scanner(System.in);
+
+    static String username = "student";
+    static String password = "6938";
+
+    static int score = 0;
+
+    public static void login() {
+        System.out.print("Enter Username: ");
+        String u = sc.next();
+        System.out.print("Enter Password: ");
+        String p = sc.next();
+
+        if (u.equals(username) && p.equals(password)) {
+            System.out.println("Login Successful!");
+            menu();
+        } else {
+            System.out.println("Invalid Login!");
+        }
+    }
+
+    public static void updateProfile() {
+        System.out.print("Enter new username: ");
+        username = sc.next();
+        System.out.print("Enter new password: ");
+        password = sc.next();
+        System.out.println("Profile Updated Successfully!");
+    }
+
+    public static void startExam() {
+        score = 0;
+        System.out.println("\nExam Started (Time: 30 seconds)");
+
+        long start = System.currentTimeMillis();
+
+        // Question 1
+        System.out.println("1. Java is ___ language?");
+        System.out.println("a) Low level  b) High level  c) Machine  d) Assembly");
+        char ans1 = sc.next().charAt(0);
+        if (ans1 == 'b') score++;
+
+        // Question 2
+        System.out.println("2. Which keyword is used to create object?");
+        System.out.println("a) class  b) new  c) object  d) create");
+        char ans2 = sc.next().charAt(0);
+        if (ans2 == 'b') score++;
+
+        long end = System.currentTimeMillis();
+
+        if ((end - start) > 30000) {
+            System.out.println("Time Over! Auto Submitted.");
+        }
+
+        System.out.println("Exam Finished!");
+        System.out.println("Your Score: " + score + "/2");
+    }
+
+    public static void logout() {
+        System.out.println("Session Closed. Logged out successfully!");
+        System.exit(0);
+    }
+
+    public static void menu() {
+        while (true) {
+            System.out.println("\n---- MENU ----");
+            System.out.println("1. Update Profile & Password");
+            System.out.println("2. Start Exam");
+            System.out.println("3. Logout");
+            System.out.print("Enter choice: ");
+
+            int ch = sc.nextInt();
+
+            switch (ch) {
+                case 1:
+                    updateProfile();
+                    break;
+                case 2:
+                    startExam();
+                    break;
+                case 3:
+                    logout();
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("==== ONLINE EXAMINATION SYSTEM ====");
+        login();
+    }
+}
