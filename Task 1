@@ -1,0 +1,147 @@
+import java.util.*;
+
+class Reservation {
+    String name;
+    int age;
+    String trainNo;
+    String trainName;
+    String from;
+    String to;
+    String date;
+    String pnr;
+
+    Reservation(String name, int age, String trainNo, String trainName,
+                String from, String to, String date, String pnr) {
+
+        this.name = name;
+        this.age = age;
+        this.trainNo = trainNo;
+        this.trainName = trainName;
+        this.from = from;
+        this.to = to;
+        this.date = date;
+        this.pnr = pnr;
+    }
+}
+
+public class OnlineReservationSystem {
+
+    static Scanner sc = new Scanner(System.in);
+    static HashMap<String, Reservation> database = new HashMap<>();
+
+    public static void main(String[] args) {
+
+        if (!login()) {
+            System.out.println("Invalid login. Exiting...");
+            return;
+        }
+
+        int choice;
+        do {
+            System.out.println("\n===== ONLINE RESERVATION SYSTEM =====");
+            System.out.println("1. Book Ticket");
+            System.out.println("2. Cancel Ticket");
+            System.out.println("3. View Ticket");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1 -> bookTicket();
+                case 2 -> cancelTicket();
+                case 3 -> viewTicket();
+                case 4 -> System.out.println("Thank you for using the system!");
+                default -> System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 4);
+    }
+
+    
+    public static boolean login() {
+        String user = "xyz";
+        String pass = "2006";
+
+        System.out.print("Enter Username: ");
+        String u = sc.next();
+
+        System.out.print("Enter Password: ");
+        String p = sc.next();
+
+        return u.equals(user) && p.equals(pass);
+    }
+
+  
+    public static void bookTicket() {
+        sc.nextLine();  
+        System.out.println("\n----- BOOK TICKET -----");
+
+        System.out.print("Enter Name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter Age: ");
+        int age = sc.nextInt();  
+        sc.nextLine();
+
+        System.out.print("Enter Train Number: ");
+        String trainNo = sc.nextLine();
+
+        System.out.print("Enter Train Name: ");
+        String trainName = sc.nextLine();
+
+        System.out.print("From: ");
+        String from = sc.nextLine();
+
+        System.out.print("To: ");
+        String to = sc.nextLine();
+
+        System.out.print("Date (dd/mm/yyyy): ");
+        String date = sc.nextLine();
+
+        String pnr = "PNR" + (int)(Math.random()*900000 + 100000);
+
+        Reservation r = new Reservation(name, age, trainNo, trainName, from, to, date, pnr);
+        database.put(pnr, r);
+
+        System.out.println("Ticket Booked Successfully!");
+        System.out.println("Your PNR: " + pnr);
+    }
+
+    
+    public static void cancelTicket() {
+        System.out.println("\n----- CANCEL TICKET -----");
+        System.out.print("Enter PNR Number: ");
+        String pnr = sc.next();
+
+        if (database.containsKey(pnr)) {
+            database.remove(pnr);
+            System.out.println("Ticket Cancelled Successfully!");
+        } else {
+            System.out.println("Invalid PNR! No ticket found.");
+        }
+    }
+
+    
+    public static void viewTicket() {
+        System.out.println("\n----- VIEW TICKET -----");
+        System.out.print("Enter PNR Number: ");
+        String pnr = sc.next();
+
+        if (database.containsKey(pnr)) {
+            Reservation r = database.get(pnr);
+
+            System.out.println("\n----- TICKET DETAILS -----");
+            System.out.println("Name: " + r.name);
+            System.out.println("Age: " + r.age);
+            System.out.println("Train No: " + r.trainNo);
+            System.out.println("Train Name: " + r.trainName);
+            System.out.println("From: " + r.from);
+            System.out.println("To: " + r.to);
+            System.out.println("Date: " + r.date);
+            System.out.println("PNR: " + r.pnr);
+
+        } else {
+            System.out.println("No ticket found for this PNR!");
+        }
+    }
+}
